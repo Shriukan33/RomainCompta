@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "romaincompta"
+version = "0.1.0"
+description = ""
+authors = ["Benjamin Mourgues <benja.mourgues@hotmail.fr>"]
+
+[tool.poetry.dependencies]
+python = "^3.7"
+Django = "^3.2"
+black = "^22.10.0"
+python-dotenv = "^0.21.0"
+whitenoise = {extras = ["brotli"], version = "^6.2.0"}
+gunicorn = "^20.1.0"
+
+[tool.poetry.dev-dependencies]
+flake8 = "^5.0.4"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
