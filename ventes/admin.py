@@ -11,12 +11,16 @@ class FactureVenteAdmin(admin.ModelAdmin):
     ordering = ('-date',)
 
     def _document_lie(self, obj):
-        human_readable_name = obj.document_lie.name.split('/')[-1]
-        return format_html(f'<a href="{obj.document_lie.url}">{human_readable_name}</a>')
+        if obj.document_lie:
+            human_readable_name = obj.document_lie.name.split('/')[-1]
+            return format_html(f'<a href="{obj.document_lie.url}">{human_readable_name}</a>')
+        else:
+            return None
+
 
 class PrestationAdmin(admin.ModelAdmin):
     pass
 
+
 admin.site.register(FactureVente, FactureVenteAdmin)
 admin.site.register(Prestation, PrestationAdmin)
-
