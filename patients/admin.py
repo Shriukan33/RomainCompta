@@ -91,3 +91,6 @@ class SessionPatientAdmin(admin.ModelAdmin):
 
 admin.site.register(Patient, PatientAdmin)
 admin.site.register(SessionPatient, SessionPatientAdmin)
+admin.site.site_header = "Administration du cabinet (Romain Derick)"
+admin.site.site_title = "RomainCompta"
+admin.site.index_title = "Bienvenue sur l'administration du cabinet"
