@@ -21,7 +21,10 @@ class FactureVente(models.Model):
         max_length=2,
         choices=[("FD", "Facture définitive"), ("A", "Facture d'Acompte")],
         default="FD",
-        help_text="Note : les factures d'acompte se font à la date de réception du paiement"
+        help_text=(
+            "Note : les factures d'acompte se font à la date"
+            " de réception du paiement"
+        ),
     )
     date = models.DateField()
     montant = models.DecimalField(max_digits=10, decimal_places=2)
@@ -40,7 +43,9 @@ class FactureVente(models.Model):
     statut_de_paiement = models.CharField(
         max_length=2, choices=[("RE", "Reçu"), ("EN", "En attente"), ("AN", "Annulé")]
     )
-    document_lie = models.FileField(upload_to="ventes/documents/factures_de_ventes", blank=True, null=True)
+    document_lie = models.FileField(
+        upload_to="ventes/documents/factures_de_ventes", blank=True, null=True
+    )
 
     def __str__(self):
         return f"{self.numero_de_facture} - {self.patient}"
