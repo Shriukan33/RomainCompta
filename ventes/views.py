@@ -1,9 +1,10 @@
 from pathlib import Path
 from django.http import FileResponse, Http404
 from django.views import View
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
-class FactureVenteView(View):
+class FactureVenteView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         filename = self.kwargs["filename"]
         file_path = (
