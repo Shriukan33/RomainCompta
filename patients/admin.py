@@ -24,7 +24,6 @@ class FactureVenteInline(admin.TabularInline):
     def has_change_permission(self, request, obj=None):
         return False
 
-
     def _document_lie(self, obj):
         human_readable_name = obj.document_lie.name.split("/")[-1]
         return format_html(
@@ -63,11 +62,20 @@ class PatientAdmin(admin.ModelAdmin):
         "adresse",
         "telephone",
         "email",
-        "notes",
+        "_compte_rendu",
     )
     list_filter = ("sexe", "categorie")
     search_fields = ("nom", "prenom")
     ordering = ("nom",)
+
+    def _compte_rendu(self, obj: Patient):
+        if obj.compte_rendu:
+            human_readable_name = obj.compte_rendu.name.split("/")[-1]
+            return format_html(
+                f'<a href="{obj.compte_rendu.url}">{human_readable_name}</a>'
+            )
+        else:
+            return None
 
 
 class SessionPatientAdmin(admin.ModelAdmin):
