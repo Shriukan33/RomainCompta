@@ -5,6 +5,7 @@ from .models import FactureVente, Prestation
 from django.db.models import QuerySet, Sum
 from django.db.models.functions import TruncMonth
 from django.utils.translation import gettext as _
+from decimal import Decimal
 
 
 class FactureVenteAdmin(AdminChartMixin, admin.ModelAdmin):
@@ -46,7 +47,7 @@ class FactureVenteAdmin(AdminChartMixin, admin.ModelAdmin):
         # Get the total amount of each month
         data = (
             queryset.annotate(month=TruncMonth('date_du_reglement'))
-            .values("month")
+            .values('month')
             .annotate(total=Sum("montant"))
             .order_by("month")
         )
@@ -56,14 +57,29 @@ class FactureVenteAdmin(AdminChartMixin, admin.ModelAdmin):
             + " "
             + label.split(" ")[1] for label in labels
         ]
-
-        values = [d["total"] for d in data]
+        values = []
+        month_to_total = {}
+        for bill in queryset:
+            if bill.mode_de_reglement == "CB":
+                month_to_total[bill.date_du_reglement.strftime("%B %Y")] = (
+                    month_to_total.get(
+                        bill.date_du_reglement.strftime("%B %Y"), Decimal(0))
+                    + bill.montant * Decimal(0.9825)
+                )
+            else:
+                month_to_total[bill.date_du_reglement.strftime("%B %Y")] = (
+                    month_to_total.get(
+                        bill.date_du_reglement.strftime("%B %Y"), Decimal(0))
+                    + bill.montant
+                )
+        for month in labels:
+            values.append(month_to_total[month])
 
         return {
             "labels": translated_labels_and_year,
             "datasets": [
                 {
-                    "label": "Total des factures",
+                    "label": "Total des factures (nets de frais sumup)",
                     "data": values,
                     "backgroundColor": "#79aec8",
                     "borderColor": "#417690",
