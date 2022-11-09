@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     "patients",
     "ventes",
     "achats",
+    "admincharts",
 ]
 
 MIDDLEWARE = [
