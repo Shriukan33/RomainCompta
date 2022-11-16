@@ -84,8 +84,6 @@ class PatientAdmin(admin.ModelAdmin):
         else:
             return None
 
-    
-
 
 class SessionPatientAdmin(admin.ModelAdmin):
     list_display = ("date", "patient", "notes", "prestation", "facture_liee")
@@ -94,6 +92,7 @@ class SessionPatientAdmin(admin.ModelAdmin):
         "patient__prenom",
         "facture_liee__numero_de_facture",
     )
+    list_filter = (('facture_liee', admin.EmptyFieldListFilter), )
     date_hierarchy = "date"
     ordering = ("-date",)
 
