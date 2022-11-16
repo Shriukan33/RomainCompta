@@ -48,6 +48,11 @@ class SessionPatientInline(admin.TabularInline):
         return False
 
 
+@admin.action(description="Marquer le suivi comme terminé")
+def mark_as_completed(self, request, queryset):
+    queryset.update(suivi='N')
+
+
 class PatientAdmin(admin.ModelAdmin):
 
     # Display related bills with tabular inlines
@@ -68,6 +73,7 @@ class PatientAdmin(admin.ModelAdmin):
     list_filter = ("sexe", "categorie", "suivi")
     search_fields = ("nom", "prenom")
     ordering = ("nom",)
+    actions = [mark_as_completed]
 
     def _compte_rendu(self, obj: Patient):
         if obj.compte_rendu:
@@ -77,6 +83,8 @@ class PatientAdmin(admin.ModelAdmin):
             )
         else:
             return None
+
+    
 
 
 class SessionPatientAdmin(admin.ModelAdmin):
