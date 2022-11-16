@@ -63,8 +63,9 @@ class PatientAdmin(admin.ModelAdmin):
         "telephone",
         "email",
         "_compte_rendu",
+        "suivi",
     )
-    list_filter = ("sexe", "categorie")
+    list_filter = ("sexe", "categorie", "suivi")
     search_fields = ("nom", "prenom")
     ordering = ("nom",)
 
