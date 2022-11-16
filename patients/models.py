@@ -16,6 +16,11 @@ class Patient(models.Model):
     compte_rendu = models.FileField(
         upload_to="patients/documents/compte_rendu", blank=True, null=True
     )
+    suivi = models.CharField(
+        max_length=1,
+        choices=[("Y", "En cours"), ("N", "Terminé")],
+        default="Y",
+    )
 
     def __str__(self):
         return f"{self.nom} {self.prenom}"
